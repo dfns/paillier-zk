@@ -1,3 +1,17 @@
+## v0.4.3
+* Add a missing check that has been reported to lead to a security vulnerability
+
+> [!WARNING]  
+> This library version uses Zero-Knowledge proofs from the CGGMP21 paper, which contains a critical
+> vulnerability that could lead to full private key recovery.
+> 
+> While we have patched this specific high-severity issue, the build still lacks other important
+> security checks introduced in the revised CGGMP24 paper. The absence of these checks may expose
+> other security risks.
+> 
+> For complete protection, please upgrade to the latest version of paillier-zk, which fully implements
+> the more secure CGGMP24 revision.
+
 ## v0.4.2
 * Update links in the crate settings, update readme [#53]
 
