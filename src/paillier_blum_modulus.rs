@@ -123,7 +123,10 @@ pub mod interactive {
     use rand_core::RngCore;
     use rug::{Complete, Integer};
 
-    use crate::common::sqrt::{blum_sqrt, find_residue, sample_neg_jacobi};
+    use crate::common::{
+        fail_if_ne,
+        sqrt::{blum_sqrt, find_residue, sample_neg_jacobi},
+    };
     use crate::{BadExponent, Error, ErrorReason, InvalidProof, InvalidProofReason};
 
     use super::{Challenge, Commitment, Data, PrivateData, Proof, ProofPoint};
@@ -179,6 +182,11 @@ pub mod interactive {
         if data.n.is_even() {
             return Err(InvalidProofReason::ModulusIsEven.into());
         }
+        fail_if_ne(
+            InvalidProofReason::EqualityCheck(1),
+            &data.n.gcd_ref(&commitment.w).complete(),
+            Integer::ONE,
+        )?;
         for (point, y) in proof.points.iter().zip(challenge.ys.iter()) {
             if Integer::from(
                 point
